@@ -1,0 +1,85 @@
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+class GFG {
+	public static void main (String[] args) {
+		//code
+		List<Interval> lst = new ArrayList<Interval>();
+		
+	  /*	Comparator<Interval> comparator = new Comparator<Interval>() {
+        @Override
+    public int compare(Interval c1, Interval c2) {
+        return c1.start - c2.start; 
+    }
+    }; */
+		
+		Scanner in = new Scanner(System.in);
+		int n = in.nextInt();
+		for(int i=0;i<n;i++)
+		{
+		    lst = new ArrayList<Interval>();
+		    int size = in.nextInt();
+		    int prevStart = 0;
+		    int prevEnd =0;
+		    for( int j=0;j<size;j++)
+		    {
+		        Interval inter = new Interval(in.nextInt(),in.nextInt());
+		        lst.add(inter);
+		    }
+		    
+		    Collections.sort(lst);
+		    
+		    
+		    Interval previousInterval = lst.get(0);
+		    for(int j =1; j< lst.size();j++)
+		    {
+		        Interval inter = lst.get(j);
+		        if( previousInterval.end >= inter.start)
+		        {
+		            int end = (previousInterval.end >= inter.end )?previousInterval.end:inter.end;
+		            lst.remove(j);
+		            j--;
+		            previousInterval.end = end;
+		            
+		        }
+		        else
+		        {
+		            previousInterval = inter;
+		        }
+		         
+		    }
+		    
+		    Collections.sort(lst);
+		    
+		    for(int j=0;j<lst.size();j++)
+		    {
+		        Interval inter = lst.get(j);
+		        System.out.print(inter.start + " " + inter.end + " ");
+		    }
+		    
+		    System.out.println();
+		}
+	}   
+}
+
+public class Interval implements Comparable<Interval>
+{
+    int start;
+    int end;
+    
+    public Interval( int start, int end)
+    {
+        this.start = start;
+        this.end = end;
+    }
+    
+    public int compareTo(Interval compareInterval) {
+
+		
+		//ascending order
+		return this.start - compareInterval.start;
+
+
+	}
+}
